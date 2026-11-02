@@ -12,7 +12,11 @@ Sendspin for Windows connects your Windows computer to [Music Assistant](https:/
 
 ---
 
-## Download & Install
+## Download
+
+Sendspin for Windows turns this PC into a Sendspin speaker that Music Assistant plays to, in sync with your other speakers.
+
+**[Download the latest release](https://github.com/Sendspin/sendspin-windows/releases/latest)**. Not sure which file to pick? Take `Sendspin.Windows-<version>-Setup-SelfContained.exe`: it includes everything it needs.
 
 ### Requirements
 - Windows 10 version 1809 or later
@@ -21,14 +25,15 @@ Sendspin for Windows connects your Windows computer to [Music Assistant](https:/
 
 ### Installation
 
-1. Download the latest installer from the [Releases page](https://github.com/chrisuthe/windowsSpin/releases)
+1. Download the latest installer from the [Releases page](https://github.com/Sendspin/sendspin-windows/releases/latest)
 2. Run the installer
 3. Launch Sendspin for Windows from the Start Menu
 
 **Options:**
-- `Sendspin.Windows-Setup.exe` — Standard installer (requires .NET 10 runtime)
-- `Sendspin.Windows-Setup-SelfContained.exe` — Includes runtime (larger download, no dependencies)
-- `Sendspin.Windows-portable.zip` — Portable version, no installation needed
+- `Sendspin.Windows-<version>-Setup.exe` — Standard installer (requires .NET 10 runtime)
+- `Sendspin.Windows-<version>-Setup-SelfContained.exe` — Includes runtime (larger download, no dependencies)
+- `Sendspin.Windows-<version>-portable-win-x64.zip` — Portable version, no installation needed (requires .NET 10 runtime)
+- `Sendspin.Windows-<version>-portable-selfcontained-win-x64.zip` — Portable version that includes the runtime
 
 ---
 
