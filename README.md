@@ -14,8 +14,6 @@ Sendspin for Windows connects your Windows computer to [Music Assistant](https:/
 
 ## Download
 
-Sendspin for Windows turns this PC into a Sendspin speaker that Music Assistant plays to, in sync with your other speakers.
-
 **[Download the latest release](https://github.com/Sendspin/sendspin-windows/releases/latest)**. Not sure which file to pick? Take `Sendspin.Windows-<version>-Setup-SelfContained.exe`: it includes everything it needs.
 
 ### Requirements
