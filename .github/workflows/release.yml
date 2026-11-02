@@ -148,6 +148,14 @@ jobs:
           Compress-Archive -Path src/Sendspin.Windows/bin/publish/win-x64-framework/* -DestinationPath dist/Sendspin.Windows-${{ steps.version.outputs.VERSION }}-portable-win-x64.zip
           Compress-Archive -Path src/Sendspin.Windows/bin/publish/win-x64-selfcontained/* -DestinationPath dist/Sendspin.Windows-${{ steps.version.outputs.VERSION }}-portable-selfcontained-win-x64.zip
 
+      # The README links releases/latest/download/<name>, which needs names without the version.
+      - name: Add version-free copies
+        run: |
+          $version = "${{ steps.version.outputs.VERSION }}"
+          foreach ($suffix in "Setup.exe", "Setup-SelfContained.exe", "portable-win-x64.zip", "portable-selfcontained-win-x64.zip") {
+            Copy-Item "dist/Sendspin.Windows-$version-$suffix" "dist/Sendspin.Windows-$suffix"
+          }
+
       - name: Create Release
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
@@ -160,6 +168,10 @@ jobs:
             dist/Sendspin.Windows-${{ steps.version.outputs.VERSION }}-Setup-SelfContained.exe
             dist/Sendspin.Windows-${{ steps.version.outputs.VERSION }}-portable-win-x64.zip
             dist/Sendspin.Windows-${{ steps.version.outputs.VERSION }}-portable-selfcontained-win-x64.zip
+            dist/Sendspin.Windows-Setup.exe
+            dist/Sendspin.Windows-Setup-SelfContained.exe
+            dist/Sendspin.Windows-portable-win-x64.zip
+            dist/Sendspin.Windows-portable-selfcontained-win-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
