@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
     <!-- Referenced directly: App calls AddLogging and resolves ILoggerFactory. It used to arrive only
          through Microsoft.Extensions.Hosting, which nothing in the app uses and which is no longer referenced. -->
