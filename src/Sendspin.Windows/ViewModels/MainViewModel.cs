@@ -719,6 +719,12 @@ public partial class MainViewModel : ViewModelBase
         {
             // Update position (this triggers OnPositionChanged which updates UI bindings)
             Position = position.Value;
+
+            // Keep the SMTC timeline in step with the displayed position (4x/s is
+            // the same cadence the UI bar uses).
+            _mediaControlsService.UpdateTimeline(
+                TimeSpan.FromSeconds(position.Value),
+                TimeSpan.FromSeconds(Duration));
         }
     }
 
@@ -735,6 +741,13 @@ public partial class MainViewModel : ViewModelBase
         _progressTracker.ApplyMetadata(metadata, playbackState, HighPrecisionTimer.Shared.GetCurrentTimeMicroseconds());
         Duration = _progressTracker.DurationSeconds;
         Position = _progressTracker.PositionSeconds;
+
+        // (Re)publish the timeline: a new track brings a fresh duration and a
+        // reset position, and a cleared track (null metadata) zeroes both, which
+        // also clears the SMTC progress state.
+        _mediaControlsService.UpdateTimeline(
+            TimeSpan.FromSeconds(_progressTracker.PositionSeconds),
+            TimeSpan.FromSeconds(_progressTracker.DurationSeconds));
     }
 
     /// <summary>
