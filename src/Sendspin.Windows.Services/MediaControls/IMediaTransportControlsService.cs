@@ -29,4 +29,16 @@ public interface IMediaTransportControlsService : IDisposable
     void UpdateMetadata(TrackMetadata? track);
 
     void UpdateThumbnail(byte[]? imageBytes);
+
+    /// <summary>
+    /// Publishes the current playback position and track duration to SMTC so the
+    /// Windows media overlay (and third-party SMTC readers) can show progress.
+    /// Call with <see cref="TimeSpan.Zero"/> for both values to clear the timeline
+    /// (no track, or the position is unknown). A duration of
+    /// <see cref="TimeSpan.Zero"/> marks an unbounded stream (live radio); the
+    /// elapsed position is still shown. No seek range is reported: a client
+    /// cannot seek on its own (only the group's controller can), and seek
+    /// requests from the media overlay are not handled.
+    /// </summary>
+    void UpdateTimeline(TimeSpan position, TimeSpan duration);
 }

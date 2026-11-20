@@ -57,8 +57,8 @@ PrivilegesRequiredOverridesAllowed=dialog
 ; License
 LicenseFile=license.txt
 
-; Minimum Windows version (Windows 10 1809)
-MinVersion=10.0.17763
+; Minimum Windows version (Windows 10 2004)
+MinVersion=10.0.19041
 
 ; The published payload is win-x64 only. x64compatible also admits ARM64 Windows, which runs
 ; x64 apps (and the x64 .NET runtime) under emulation; 32-bit Windows is refused before any

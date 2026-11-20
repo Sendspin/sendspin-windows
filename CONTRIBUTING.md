@@ -45,7 +45,7 @@ This project adheres to a code of conduct that we expect all contributors to fol
 
 - **Visual Studio 2022** (17.8 or later) with:
   - .NET desktop development workload
-  - Windows 10 SDK (10.0.17763.0)
+  - Windows 10 SDK (10.0.19041.0)
 - **OR JetBrains Rider** (2023.3 or later)
 - **.NET 10.0 SDK**
 - **Git** for version control

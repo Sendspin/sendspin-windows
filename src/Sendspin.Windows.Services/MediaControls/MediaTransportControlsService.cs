@@ -12,6 +12,7 @@ public sealed class MediaTransportControlsService : IMediaTransportControlsServi
     private readonly ILogger<MediaTransportControlsService> _logger;
     private SystemMediaTransportControls? _smtc;
     private SystemMediaTransportControlsDisplayUpdater? _displayUpdater;
+    private SystemMediaTransportControlsTimelineProperties? _timeline;
     private bool _isEnabled = true;
     private bool _disposed;
 
@@ -63,6 +64,19 @@ public sealed class MediaTransportControlsService : IMediaTransportControlsServi
             ApplySupportedCommands(_smtc);
             _smtc.PlaybackStatus = MediaPlaybackStatus.Stopped;
             _smtc.ButtonPressed += OnButtonPressed;
+
+            // Timeline properties (position + duration) are pushed on demand via
+            // UpdateTimeline; only StartTime is fixed here. No seek range is
+            // reported: this client cannot seek on its own (only the group's
+            // controller can), and we do not handle PlaybackPositionChangeRequested
+            // — the OS still marks a session with a timeline as seekable, so a
+            // user dragging the overlay's seek bar sends a request we ignore.
+            // Wiring the event to a seek command (when acting as controller) is
+            // left as follow-up work.
+            _timeline = new SystemMediaTransportControlsTimelineProperties
+            {
+                StartTime = TimeSpan.Zero
+            };
 
             _displayUpdater = _smtc.DisplayUpdater;
             _displayUpdater.Type = MediaPlaybackType.Music;
@@ -156,6 +170,30 @@ public sealed class MediaTransportControlsService : IMediaTransportControlsServi
         }
     }
 
+    public void UpdateTimeline(TimeSpan position, TimeSpan duration)
+    {
+        if (_smtc == null || _timeline == null)
+        {
+            return;
+        }
+
+        _timeline.Position = position < TimeSpan.Zero ? TimeSpan.Zero : position;
+        _timeline.EndTime = duration > TimeSpan.Zero ? duration : TimeSpan.Zero;
+
+        try
+        {
+            _smtc.UpdateTimelineProperties(_timeline);
+        }
+        catch (Exception ex)
+        {
+            // The OS refused the update. This should not happen on the supported
+            // minimum build; stop retrying on every position tick rather than
+            // logging once per tick.
+            _logger.LogWarning(ex, "SMTC timeline update failed; timeline updates disabled");
+            _timeline = null;
+        }
+    }
+
     public void Dispose()
     {
         if (_disposed)
@@ -171,6 +209,7 @@ public sealed class MediaTransportControlsService : IMediaTransportControlsServi
             _smtc.IsEnabled = false;
             _smtc = null;
             _displayUpdater = null;
+            _timeline = null;
         }
     }
 
